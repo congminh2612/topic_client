@@ -14,10 +14,11 @@ const Header = () => {
                 <TextInput placeholder="Tìm kiếm" />
             </div>
             {user && (
-                <div className='flex items-center space-x-6'>
+                <div onClick={() => navigate('/info')} className='flex items-center space-x-6 cursor-pointer'>
                     <IoPerson size='24' />
                     <p className='text-lg font-medium'>{user.username}</p>
                 </div>
+
             )
             }
             {

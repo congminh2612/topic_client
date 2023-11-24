@@ -7,10 +7,15 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import CreateTopicScreen from "./features/topic/components/CreateTopicScreen"
 import UpdateTopicScreen from "./features/topic/components/UpdateTopicScreen"
 import TopicDetailScreen from "./features/topic/components/TopicDetailScreen"
+import InfoScreen from "./features/user/InfoScreen"
+import { useSelector } from "react-redux"
+import Protected from "./components/protected-route/Protected"
 
 
 function App() {
   const queryClient = new QueryClient()
+  const isLoggedIn = useSelector(state => state.auth.isLogin)
+  console.log(isLoggedIn)
   return (
     <>
       <QueryClientProvider client={queryClient}>
@@ -22,6 +27,7 @@ function App() {
             <Route path="/topic/create" element={<CreateTopicScreen />} />
             <Route path="/topic/update/:id" element={<UpdateTopicScreen />} />
             <Route path="/topic/:id" element={<TopicDetailScreen />} />
+            <Route path="/info/" element={<Protected isLoggedIn={isLoggedIn}><InfoScreen /></Protected>} />
           </Route>
         </Routes>
       </QueryClientProvider>

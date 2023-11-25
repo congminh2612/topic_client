@@ -10,6 +10,7 @@ import TopicDetailScreen from "./features/topic/components/TopicDetailScreen"
 import InfoScreen from "./features/user/InfoScreen"
 import { useSelector } from "react-redux"
 import Protected from "./components/protected-route/Protected"
+import UserScreen from "./features/user/UserScreen"
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <Route path="/" element={<HomeScreen />} />
             <Route path="/sign-in" element={<SignInScreen />} />
             <Route path="/sign-up" element={<SignUpScreen />} />
+            <Route path="/user" element={<UserScreen />} />
             <Route path="/topic/create" element={<CreateTopicScreen />} />
             <Route path="/topic/update/:id" element={<UpdateTopicScreen />} />
             <Route path="/topic/:id" element={<TopicDetailScreen />} />

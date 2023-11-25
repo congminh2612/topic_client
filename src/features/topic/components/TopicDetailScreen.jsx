@@ -1,10 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
-
 import { useParams } from 'react-router-dom'
 import { getTopicById } from '../services/getTopicById'
 import { getUserByTopic } from '../services/getUserByTopic'
+import { useSelector } from 'react-redux'
 
 const TopicDetailScreen = () => {
+    const currentUser = useSelector((state) => state.auth.currentUser)
     const { id } = useParams()
     const { data: topic } = useQuery({ queryKey: ['topic', id], queryFn: () => getTopicById(id) })
     const { data: users } = useQuery({ queryKey: ['user', id], queryFn: () => getUserByTopic(id) })
@@ -29,25 +30,34 @@ const TopicDetailScreen = () => {
                         </div>
                     </div>
                     <div>
-                        <p className='pl-20 text-xl font-medium'>User Subscribes</p>
-                        <div className='pt-10'>
-                            <table className='table-auto w-full border-collapse '>
-                                <thead>
-                                    <tr key="">
-                                        <th>Username</th>
-                                        <th>Email</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {users && users.map(user => (
-                                        <tr key={user._id}>
-                                            <td align='center'>{user.username}</td>
-                                            <td align='center'>{user.email}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
+                        <p className='pl-20 text-xl font-medium'>Những người đăng ký topic này</p>
+                        {
+                            currentUser.isAdmin ? (
+                                <div className='pt-10'>
+                                    <table className='table-auto w-full border-collapse border-2'>
+                                        <thead>
+                                            <tr key="">
+                                                <th className="border-[1px] bg-slate-700 text-white py-2" >Username</th>
+                                                <th className="border-[1px] bg-slate-700 text-white py-2">Email</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {users && users.map(user => (
+                                                <tr key={user._id}>
+                                                    <td className='border-[1px] pl-4 py-2'>{user.username}</td>
+                                                    <td className='border-[1px] pl-4 py-2' >{user.email}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            ) : (
+                                <div className="text-center pt-10">
+                                    <p className='text-xl font-medium text-red-500'>Chỉ tài khoản quản trị viên mới có thể xem được nội dung này</p>
+                                </div>
+                            )
+                        }
+
                     </div>
 
                 </div>}
